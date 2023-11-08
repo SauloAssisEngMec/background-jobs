@@ -1,16 +1,5 @@
-// exports.store = async function (req, res) {
-//   const { name, email, password } = req.body;
+const Queue = require("../lib/Queue");
 
-//   const user = {
-//     name,
-//     email,
-//     password,
-//   };
-
-//   return res.status(201).json(user);
-
-//   // enivar email
-// };
 module.exports = {
   async store(req, res) {
     const { name, email, password } = req.body;
@@ -21,8 +10,10 @@ module.exports = {
       password,
     };
 
-    return res.status(201).json(user);
+    // adiiconar job de Registration na fila
 
-    // enivar email
+    await Queue.add({ user });
+
+    return res.status(201).json(user);
   },
 };
